@@ -1,0 +1,54 @@
+version: '3'
+services:
+  juno:
+    container_name: juno
+    image: mhart/alpine-node:9
+    working_dir: /code
+    command: ["yarn", "start"]
+    labels:
+      - "traefik.port=3001"
+      - "traefik.backend.rule=juno"
+      - "traefik.frontend.rule=Host:juno.findmyrecords.io"
+    ports:
+      - 3001:3001
+    volumes:
+      - $PWD/api/modules/service-juno:/code
+  techno-import:
+    container_name: techno-import
+    image: mhart/alpine-node:9
+    working_dir: /code
+    command: ["yarn", "start"]
+    labels:
+      - "traefik.port=3002"
+      - "traefik.backend.rule=techno-import"
+      - "traefik.frontend.rule=Host:techno-import.findmyrecords.io"
+    ports:
+      - 3002:3002
+    volumes:
+      - $PWD/api/modules/service-techno-import:/code
+  app:
+    container_name: app
+    image: mhart/alpine-node:9
+    working_dir: "/code"
+    command: ["yarn", "start"]
+    labels:
+      - "traefik.port=4000"
+      - "traefik.backend.rule=app"
+      - "traefik.frontend.rule=Host:app.findmyrecords.io"
+    environment:
+      - PORT=4000
+    ports:
+      - 4000:4000
+    volumes:
+      - $PWD/app:/code
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+  proxy:
+    container_name: proxy
+    image: traefik:alpine
+    command: "--web --docker --docker.domain=docker.localhost --logLevel=DEBUG"
+    ports:
+      - 80:80
+      - 443:443
+      - 8080:8080
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
