@@ -2,9 +2,7 @@
 
 ## 🎭 Installation
 
-* Clone this repository, then :
-  * Inside of the `app` folder: `git submodule init && git submodule update`
-  * Same inside of the `api` folder: `git submodule init && git submodule update`
+* Clone this repository, then at the root folder run `git submodule init && git submodule update`
 
 * Run `make install` for installing the dependencies of each project.
 
