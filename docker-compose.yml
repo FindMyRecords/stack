@@ -13,19 +13,25 @@ services:
       - 3001:3001
     volumes:
       - $PWD/api/modules/service-juno:/code
-  techno-import:
-    container_name: techno-import
+      - $PWD/modules/shared:/code/shared
+    environment:
+      - LOGGLY_TOKEN=6a4da50d-8ebc-4c66-9774-26db95bc19ff
+  redeye:
+    container_name: redeye
     image: mhart/alpine-node:9
     working_dir: /code
     command: ["yarn", "start"]
     labels:
       - "traefik.port=3002"
-      - "traefik.backend.rule=techno-import"
-      - "traefik.frontend.rule=Host:techno-import.findmyrecords.io"
+      - "traefik.backend.rule=redeye"
+      - "traefik.frontend.rule=Host:redeye.findmyrecords.io"
     ports:
       - 3002:3002
     volumes:
-      - $PWD/api/modules/service-techno-import:/code
+      - $PWD/api/modules/service-redeye:/code
+      - $PWD/modules/shared:/code/shared
+    environment:
+      - LOGGLY_TOKEN=6a4da50d-8ebc-4c66-9774-26db95bc19ff
   app:
     container_name: app
     image: mhart/alpine-node:9
