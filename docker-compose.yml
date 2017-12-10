@@ -13,7 +13,6 @@ services:
       - 3001:3001
     volumes:
       - $PWD/api/modules/service-juno:/code
-      - $PWD/modules/shared:/code/shared
     environment:
       - LOGGLY_TOKEN=6a4da50d-8ebc-4c66-9774-26db95bc19ff
   redeye:
@@ -29,7 +28,6 @@ services:
       - 3002:3002
     volumes:
       - $PWD/api/modules/service-redeye:/code
-      - $PWD/modules/shared:/code/shared
     environment:
       - LOGGLY_TOKEN=6a4da50d-8ebc-4c66-9774-26db95bc19ff
   app:
